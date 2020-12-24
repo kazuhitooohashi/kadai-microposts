@@ -85,6 +85,30 @@ class UsersController extends Controller
         ]);
     }
     
+    /**
+     * ユーザのフェイバリット一覧ページを表示するアクション。
+     *
+     * @param  $id  ユーザーのid
+     * @return \Illuminate\Http\Response
+     */
+    public function favorites($id)
+    {
+        // idの値でユーザを検索して取得
+        $user = User::findOrFail($id);
+
+        // マイクロポストのフェイバリット一覧を取得
+        $favorites = $user->favorites()->paginate(10);
+
+        
+
+        // フェイバリット一覧ビューでそれらを表示
+        return view('users.favorites', [
+            'user' => $user,
+            'microposts' => $favorites,
+            
+        ]);
+    }
+    
 }
 
     
